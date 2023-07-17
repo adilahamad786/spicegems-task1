@@ -1,13 +1,14 @@
+// Select body
 const body = document.body;
 
 // apply some style on body
 body.style.cssText = `
-    padding: 0rem;
+    padding: 1rem;
     margin: 0rem;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     min-height: 100vh;
 `;
 
@@ -20,10 +21,9 @@ leftSection.style.cssText = `
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    width: 50%;
+    max-width: 50%;
 `;
 body.append(leftSection);
-
 
 // Creating Image Element
 const image = document.createElement('div');
@@ -34,7 +34,6 @@ image.style.cssText = `
     border-radius: 0.5rem;
 `;
 leftSection.append(image);
-
 
 // thumbnails data
 const data = [
@@ -103,7 +102,6 @@ const data = [
     }
 ]
 
-
 // Creating Thumbnails Container and element;
 const thumbContainer = document.createElement('div');
 thumbContainer.style.cssText = `
@@ -111,10 +109,9 @@ thumbContainer.style.cssText = `
     justify-content: center;
     gap: 0.5rem;
     flex-wrap: wrap;
-    width: 30rem;
+    width: 100%;
 `;
 leftSection.append(thumbContainer)
-
 
 // Dynamically Change thumbnails and image using ChangeThumbsDynamically
 const ChangeThumbsDynamically = (select) => {
@@ -150,7 +147,6 @@ const ChangeThumbsDynamically = (select) => {
     image.style.backgroundColor = thumbnails[0].color;
 }
 
-
 // Initial call for first time rendering
 ChangeThumbsDynamically()
 
@@ -161,11 +157,11 @@ rightSection.style.cssText = `
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2rem;
-    width: 50%;
+    max-width: 50%;
 `;
 body.append(rightSection);
-
 
 // Creating buttons
 const btns = ['ALL', 'RED', "GREEN", "BLUE"];
@@ -189,7 +185,6 @@ btns.forEach(btnText => {
     btnContainer.append(btn);
 })
 
-
 // Creating dropDown
 const dropDown = document.createElement('select');
 dropDown.style.cssText = `
@@ -206,8 +201,26 @@ btns.forEach(btnText => {
     dropDown.append(option)
 })
 
-
 // Adding event listener for changes
 dropDown.addEventListener("change", (e) => {
     ChangeThumbsDynamically(e.target.value.toLowerCase());
 })
+
+
+// Making responsive for small device
+const customMediaQuery = () => {
+    const query = matchMedia("(max-width: 600px)");
+    if (query.matches) {
+        console.log("Working...")
+        body.style.flexDirection = "column-reverse";
+        body.style.gap = "2rem";
+        body.style.padding = "2rem 1rem";
+        body.style.justifyContent = 'flex-start';
+        rightSection.style.minWidth = "100%";
+        leftSection.style.minWidth = "100%";
+    }
+}
+
+// automatically apply media query onload or resize page
+onload = customMediaQuery;
+onresize = customMediaQuery;
